@@ -17,12 +17,7 @@ import sys
 import time
 import json
 
-# TODO: Load the pubsub, languageapi and spanner modules from
-# the quiz.gcp package
-
-
-
-# END TODO
+from quiz.gcp import pubsub, languageapi, spanner
 
 """
 Configure logging
@@ -41,55 +36,21 @@ Receives pulled messages, analyzes and stores them
 - log feedback saved
 """
 def pubsub_callback(message):
+    message.ack()
 
-    # TODO: Acknowledge the message
-
-    
-
-    # END TODO
-
-    
-
-    # TODO: Log the message
-
-    
-
-    # END TODO
+    log.info('Message received')
+    log.info(message)
 
     data = json.loads(message.data)
 
-    # TODO: Use the languageapi module to
-    # analyze the sentiment
+    score = languageapi.analyze(str(data['feedback']))
+    log.info('Score: {}'.format(score))
 
-    
+    data['score'] = score
 
-    # END TODO
+    spanner.save_feedback(data)
 
-    # TODO: Log the sentiment score
-
-    
-
-    # END TODO
-
-    # TODO: Assign the sentiment score to
-    # a new score property
-
-    
-
-    # END TODO
-
-    # TODO: Use the spanner module to save the feedback
-
-    
-
-    # END TODO
-
-    # TODO: Log a message to say the feedback
-    # has been saved
-
-    
-
-    # END TODO
+    log.info('Feedback saved')
 
 """
 Pulls messages and loops forever while waiting
@@ -99,11 +60,8 @@ Pulls messages and loops forever while waiting
 def main():
     log.info('Worker starting...')
 
-    # TODO: Register the callback
+    pubsub.pull_feedback(pubsub_callback)
 
-    
-
-    # END TODO
 
     while True:
         time.sleep(60)

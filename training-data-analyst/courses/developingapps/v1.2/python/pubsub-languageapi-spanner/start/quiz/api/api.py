@@ -19,11 +19,7 @@ from flask import Response
 """
 Import shared GCP helper modules
 """
-# TODO: Add pubsub to import list
-
-from quiz.gcp import datastore
-
-# END TODO
+from quiz.gcp import datastore, pubsub
 
 """
 Gets list of questions from datastore
@@ -71,9 +67,8 @@ Publish feedback
 - Compose and return response
 """
 def publish_feedback(feedback):
-    # TODO: Publish the feedback using your pubsub module,
-    # return the result
-    pass
-    
-    
-    # END TODO
+    result = pubsub.publish_feedback(feedback)
+    response = Response(json.dumps(result, indent=2, sort_keys=True))
+    response.headers['Content-Type'] = 'application/json'
+    return response
+

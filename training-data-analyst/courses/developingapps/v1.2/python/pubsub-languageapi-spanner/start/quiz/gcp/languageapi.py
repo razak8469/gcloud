@@ -12,18 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO: Import the language module
+from google.cloud import language_v1
 
-
-
-# END TODO
-
-
-# TODO: Create the Language API client
-
-
-
-# END TODO
+lang_client = language_v1.LanguageServiceClient()
 
 """
 Returns sentiment analysis score
@@ -32,22 +23,8 @@ Returns sentiment analysis score
 - return the sentiment score
 """
 def analyze(text):
+    doc = language_v1.types.Document(content=text, type_='PLAIN_TEXT')
+    sentiment = lang_client.analyze_sentiment(document=doc).document_sentiment
 
-    # TODO: Create a Document object
+    return sentiment.score
 
-    
-
-    # END TODO
-
-    # TODO: Analyze the sentiment
-
-    
-
-    # END TODO
-
-
-    # TODO: Return the sentiment score
-
-    
-
-    # END TODO
