@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: quiz-backend
-        image: [BACKEND_IMAGE_IDENTIFIER]
+        image: gcr.io/[PROJECT_ID]/quiz-backend
         imagePullPolicy: Always
         env:
           - name: GCLOUD_PROJECT
